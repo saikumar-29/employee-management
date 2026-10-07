@@ -1,0 +1,7 @@
+.git
+.github
+.idea
+*.iml
+README.md
+src/test
+target/*.original

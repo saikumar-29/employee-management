@@ -1,0 +1,41 @@
+services:
+
+  mysql-db:
+    build:
+      context: ./db
+    image: employee-db:1.0
+    container_name: employee-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: employeedb
+      MYSQL_USER: employee
+      MYSQL_PASSWORD: employee123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uemployee", "-pemployee123"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  employee-app:
+    build:
+      context: .
+    image: employee-app:1.0
+    container_name: employee-app
+    restart: unless-stopped
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    environment:
+      DB_HOST: mysql-db
+      DB_USER: employee
+      DB_PASSWORD: employee123
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
