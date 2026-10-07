@@ -35,7 +35,7 @@ pipeline {
                 // Configure SonarQube server in Jenkins first.
                 // The installation name below must match Jenkins Global Tool Configuration.
                 withSonarQubeEnv('SonarQube') {
-                    sh 'mvn verify sonar:sonar -Dsonar.projectKey=employee-management'
+                    sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=employee-management'
                 }
             }
         }
