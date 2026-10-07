@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven-3.9'
+    }
+
     environment {
         APP_IMAGE = "employee-app:${BUILD_NUMBER}"
         DB_IMAGE = "employee-db:${BUILD_NUMBER}"
